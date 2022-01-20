@@ -1,15 +1,21 @@
 build-job:
   stage: build
+  tags:
+    - devops
   script:
     - maven compile
 
 test-job:
   stage: test
+  tags:
+    - devops
   script:
     - maven test
 
 deploy-prod:
   stage: deploy
+  tags:
+    - devops
   script:
     - maven package
     - dpl --provider=heroku --app=ef420-simplewebapp --api-key=14eb8559-b004-4ebd-9059-f7e09305b68a
