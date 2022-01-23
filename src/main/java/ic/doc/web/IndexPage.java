@@ -22,6 +22,11 @@ public class IndexPage implements Page {
                         "<form>" +
                         "<input type=\"text\" name=\"q\" />" +
                         "<br><br><input type=\"submit\">" +
+                        "<p>Select output type</p>" +
+                        "<input type=\"radio\" id=\"html\" name=\"output_type\" value=\"HTML\" checked=\"checked\">" +
+                        "<label for=\"html\">html</label><br>" +
+                        "<input type=\"radio\" id=\"markdown\" name=\"output_type\" value=\"Markdown\">" +
+                        "<label for=\"markdown\">markdown</label><br>" +
                         "</form>" +
                         "</p>");
 

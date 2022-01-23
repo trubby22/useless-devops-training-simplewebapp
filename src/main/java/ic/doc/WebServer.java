@@ -27,10 +27,15 @@ public class WebServer {
         @Override
         protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
             String query = req.getParameter("q");
+            String output_type = req.getParameter("output_type");
             if (query == null) {
                 new IndexPage().writeTo(resp);
             } else {
-                new HTMLResultPage(query, new QueryProcessor().process(query)).writeTo(resp);
+                if (output_type.equals("HTML")) {
+                  new HTMLResultPage(query, new QueryProcessor().process(query)).writeTo(resp);
+                } else if (output_type.equals("Markdown")) {
+                  new HTMLResultPage(query, new QueryProcessor().process(query)).serveFile(resp);
+                }
             }
         }
     }

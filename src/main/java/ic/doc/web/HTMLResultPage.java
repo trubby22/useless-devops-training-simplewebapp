@@ -1,7 +1,13 @@
 package ic.doc.web;
 
 import javax.servlet.http.HttpServletResponse;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 
 public class HTMLResultPage implements Page {
@@ -37,5 +43,24 @@ public class HTMLResultPage implements Page {
         // Footer
         writer.println("</body>");
         writer.println("</html>");
+    }
+
+    public void serveFile(HttpServletResponse resp) throws IOException {
+      resp.setContentType("text/plain");
+      resp.setHeader("Content-disposition", "attachment; filename=result.md");
+      File tempFile = File.createTempFile("result", ".md");
+      tempFile.deleteOnExit();
+      FileWriter writer = new FileWriter(tempFile.getPath());
+      if (answer == null || answer.isEmpty()) {
+        writer.write("Sorry,\nwe didn't understand " + query);
+      } else {
+        writer.write(query + "\n" + answer);
+      }
+      writer.close();
+      InputStream inputStream = new FileInputStream(tempFile);
+      OutputStream outputStream = resp.getOutputStream();
+      inputStream.transferTo(outputStream);
+      inputStream.close();
+      outputStream.close();
     }
 }
