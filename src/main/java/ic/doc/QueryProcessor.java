@@ -17,6 +17,11 @@ public class QueryProcessor {
                            "his works of hard science fiction and popular science. \n");
             results.append(System.lineSeparator());
         }
+
+        if (query.toLowerCase().contains("newton")) {
+          results.append("Sir Isaac Newton PRS (25 December 1642 - 20 March 1727) \nwas an English mathematician, physicist, astronomer, alchemist, theologian, and author \n(described in his time as a \"natural philosopher\") \nwidely recognised as one of the greatest mathematicians and physicists of all time \nand among the most influential scientists.\n");
+          results.append(System.lineSeparator());
+        }
         return results.toString();
     }
 }
