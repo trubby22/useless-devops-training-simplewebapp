@@ -2,6 +2,8 @@ package ic.doc.web;
 
 import javax.servlet.http.HttpServletResponse;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -48,8 +50,8 @@ public class HTMLResultPage implements Page {
     public void serveFile(HttpServletResponse resp) throws IOException {
       resp.setContentType("text/plain");
       resp.setHeader("Content-disposition", "attachment; filename=result.md");
-      File tempFile = File.createTempFile("result", ".md");
-      tempFile.deleteOnExit();
+      File tempFile = new File("result.md");
+      tempFile.createNewFile();
       FileWriter writer = new FileWriter(tempFile.getPath());
       if (answer == null || answer.isEmpty()) {
         writer.write("Sorry,\nwe didn't understand " + query);
@@ -58,6 +60,37 @@ public class HTMLResultPage implements Page {
       }
       writer.close();
       InputStream inputStream = new FileInputStream(tempFile);
+      tempFile.delete();
+      OutputStream outputStream = resp.getOutputStream();
+      inputStream.transferTo(outputStream);
+      inputStream.close();
+      outputStream.close();
+    }
+
+    public void servePdf(HttpServletResponse resp) throws IOException {
+      resp.setContentType("application/pdf");
+      resp.setHeader("Content-disposition", "attachment; filename=result.pdf");
+      File tempFile = new File("result.md");
+      tempFile.createNewFile();
+      FileWriter writer = new FileWriter(tempFile.getPath());
+      if (answer == null || answer.isEmpty()) {
+        writer.write("Sorry,\nwe didn't understand " + query);
+      } else {
+        writer.write(query + "\n" + answer);
+      }
+      writer.close();
+      Process process = new ProcessBuilder("pandoc", "-s", "-r", "man", "-t", "pdf" ,"result.md", "-o", "result.pdf").start();
+      int exitCode;
+      try {
+        exitCode = process.waitFor();
+        assertEquals("No errors should be detected", 0, exitCode);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+      tempFile.delete();
+      File pdf = new File("result.pdf");
+      InputStream inputStream = new FileInputStream(pdf);
+      pdf.delete();
       OutputStream outputStream = resp.getOutputStream();
       inputStream.transferTo(outputStream);
       inputStream.close();

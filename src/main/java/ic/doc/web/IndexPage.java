@@ -27,6 +27,8 @@ public class IndexPage implements Page {
                         "<label for=\"html\">html</label><br>" +
                         "<input type=\"radio\" id=\"markdown\" name=\"output_type\" value=\"Markdown\">" +
                         "<label for=\"markdown\">markdown</label><br>" +
+                        "<input type=\"radio\" id=\"pdf\" name=\"output_type\" value=\"Pdf\">" +
+                        "<label for=\"pdf\">pdf</label><br>" +
                         "</form>" +
                         "</p>");
 

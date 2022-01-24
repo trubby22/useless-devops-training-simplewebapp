@@ -35,6 +35,8 @@ public class WebServer {
                   new HTMLResultPage(query, new QueryProcessor().process(query)).writeTo(resp);
                 } else if (output_type.equals("Markdown")) {
                   new HTMLResultPage(query, new QueryProcessor().process(query)).serveFile(resp);
+                } else if (output_type.equals("Pdf")) {
+                  new HTMLResultPage(query, new QueryProcessor().process(query)).servePdf(resp);
                 }
             }
         }
