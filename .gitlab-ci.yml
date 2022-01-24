@@ -1,21 +1,27 @@
-build-job:
-  stage: build
+default:
   tags:
     - devops
+
+build-job:
+  stage: build
   script:
     - mvn compile
 
 test-job:
   stage: test
-  tags:
-    - devops
   script:
     - mvn test
 
+deploy-staging:
+  stage: deploy
+  before_script:
+    - pkill -f SimpleWebApp
+  script:
+    - export PORT=5000
+    - exec -a SimpleWebApp sh target/bin/simplewebapp &
+
 deploy-prod:
   stage: deploy
-  tags:
-    - devops
   script:
     - mvn package
     - dpl --provider=heroku --app=ef420-simplewebapp --api-key=14eb8559-b004-4ebd-9059-f7e09305b68a
