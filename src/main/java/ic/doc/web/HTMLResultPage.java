@@ -79,7 +79,7 @@ public class HTMLResultPage implements Page {
         writer.write(query + "\n" + answer);
       }
       writer.close();
-      Process process = new ProcessBuilder("pandoc", "-s", "-r", "man", "-t", "pdf" ,"result.md", "-o", "result.pdf").start();
+      Process process = new ProcessBuilder("pandoc", "-s", "-r", "man", "-t", "latex" ,"result.md", "-o", "result.pdf").start();
       int exitCode;
       try {
         exitCode = process.waitFor();
