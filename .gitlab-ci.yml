@@ -15,10 +15,11 @@ test-job:
 deploy-staging:
   stage: deploy
   before_script:
-    - pkill -f SimpleWebApp
+    - test -f simplewebapp.pid || kill -9 `cat simplewebapp.pid`
   script:
     - export PORT=5000
-    - exec -a SimpleWebApp sh target/bin/simplewebapp &
+    - nohup sh target/bin/simplewebapp &
+    - echo $! > simplewebapp.pid
 
 deploy-prod:
   stage: deploy
