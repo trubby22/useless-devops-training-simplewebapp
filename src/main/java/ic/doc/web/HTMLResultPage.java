@@ -49,7 +49,7 @@ public class HTMLResultPage implements Page {
 
     public void serveFile(HttpServletResponse resp) throws IOException {
       resp.setContentType("text/plain");
-      resp.setHeader("Content-disposition", "attachment; filename=result.md");
+      resp.setHeader("Content-Disposition", "attachment; filename=result.md");
       File tempFile = new File("result.md");
       tempFile.createNewFile();
       FileWriter writer = new FileWriter(tempFile.getPath());
@@ -68,8 +68,8 @@ public class HTMLResultPage implements Page {
     }
 
     public void servePdf(HttpServletResponse resp) throws IOException {
-      resp.setContentType("application/pdf");
-      resp.setHeader("Content-disposition", "attachment; filename=result.pdf");
+      resp.setContentType("application/pdf;charset=UTF-8");
+      resp.addHeader("Content-Disposition", "attachment; filename=result.pdf");
       File tempFile = new File("result.md");
       tempFile.createNewFile();
       FileWriter writer = new FileWriter(tempFile.getPath());
@@ -79,16 +79,16 @@ public class HTMLResultPage implements Page {
         writer.write(query + "\n" + answer);
       }
       writer.close();
-      Process process = new ProcessBuilder("pandoc", "-s", "-r", "man", "-t", "latex" ,"result.md", "-o", "result.pdf").start();
-      int exitCode;
+      Process process = new ProcessBuilder("pandoc", "result.md", "-o", "result.pdf").start();
       try {
-        exitCode = process.waitFor();
+        int exitCode = process.waitFor();
         assertEquals("No errors should be detected", 0, exitCode);
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
       tempFile.delete();
       File pdf = new File("result.pdf");
+      assert(pdf.exists() && !pdf.isDirectory());
       InputStream inputStream = new FileInputStream(pdf);
       pdf.delete();
       OutputStream outputStream = resp.getOutputStream();
