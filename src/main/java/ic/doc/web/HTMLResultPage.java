@@ -49,7 +49,7 @@ public class HTMLResultPage implements Page {
 
     public void serveFile(HttpServletResponse resp) throws IOException {
       resp.setContentType("text/plain");
-      resp.setHeader("Content-disposition", "attachment; filename=result.md");
+      resp.setHeader("Content-Disposition", "attachment; filename=result.md");
       File tempFile = new File("result.md");
       tempFile.createNewFile();
       FileWriter writer = new FileWriter(tempFile.getPath());
@@ -68,8 +68,8 @@ public class HTMLResultPage implements Page {
     }
 
     public void servePdf(HttpServletResponse resp) throws IOException {
-      resp.setContentType("application/pdf");
-      resp.setHeader("Content-disposition", "attachment; filename=result.pdf");
+      resp.setContentType("application/pdf;charset=UTF-8");
+      resp.addHeader("Content-Disposition", "attachment; filename=result.pdf");
       File tempFile = new File("result.md");
       tempFile.createNewFile();
       FileWriter writer = new FileWriter(tempFile.getPath());

@@ -31,12 +31,16 @@ public class WebServer {
             if (query == null) {
                 new IndexPage().writeTo(resp);
             } else {
-                if (output_type.equals("HTML")) {
-                  new HTMLResultPage(query, new QueryProcessor().process(query)).writeTo(resp);
-                } else if (output_type.equals("Markdown")) {
-                  new HTMLResultPage(query, new QueryProcessor().process(query)).serveFile(resp);
-                } else if (output_type.equals("Pdf")) {
-                  new HTMLResultPage(query, new QueryProcessor().process(query)).servePdf(resp);
+                switch (output_type) {
+                    case "HTML":
+                        new HTMLResultPage(query, new QueryProcessor().process(query)).writeTo(resp);
+                        break;
+                    case "Markdown":
+                        new HTMLResultPage(query, new QueryProcessor().process(query)).serveFile(resp);
+                        break;
+                    case "Pdf":
+                        new HTMLResultPage(query, new QueryProcessor().process(query)).servePdf(resp);
+                        break;
                 }
             }
         }
