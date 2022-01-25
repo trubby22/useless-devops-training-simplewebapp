@@ -5,4 +5,6 @@ RUN apt-get install -y texlive
 RUN apt-get install -y texlive-latex-extra
 WORKDIR /simplewebapp
 COPY . .
+RUN mvn compile
+RUN mvn package
 CMD ["sh", "target/bin/simplewebapp"]
