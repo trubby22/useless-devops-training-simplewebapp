@@ -25,6 +25,5 @@ deploy-staging:
 deploy-prod:
   stage: deploy
   script:
-<<<<<<< HEAD
     - mvn package
     - dpl --provider=heroku --app=ef420-simplewebapp --api-key=72e43b71-2af7-4f8d-9409-6e31d8c6871a
