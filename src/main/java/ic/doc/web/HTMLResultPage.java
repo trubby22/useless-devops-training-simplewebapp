@@ -79,16 +79,16 @@ public class HTMLResultPage implements Page {
         writer.write(query + "\n" + answer);
       }
       writer.close();
-      Process process = new ProcessBuilder("pandoc", "-s", "-r", "man", "-t", "latex" ,"result.md", "-o", "result.pdf").start();
-      int exitCode;
+      Process process = new ProcessBuilder("pandoc", "result.md", "-o", "result.pdf").start();
       try {
-        exitCode = process.waitFor();
+        int exitCode = process.waitFor();
         assertEquals("No errors should be detected", 0, exitCode);
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
       tempFile.delete();
       File pdf = new File("result.pdf");
+      assert(pdf.exists() && !pdf.isDirectory());
       InputStream inputStream = new FileInputStream(pdf);
       pdf.delete();
       OutputStream outputStream = resp.getOutputStream();
