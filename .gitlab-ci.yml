@@ -1,6 +1,7 @@
 default:
   tags:
     - devops
+  image: ubuntu
 
 build-job:
   stage: build
