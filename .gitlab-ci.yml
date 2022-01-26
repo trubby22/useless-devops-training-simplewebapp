@@ -1,4 +1,7 @@
-image: maven:3-jdk-11 
+default:
+  tags:
+    - devops
+
 build-job:
   stage: build
   script:
@@ -24,4 +27,3 @@ deploy-prod:
   script:
     - mvn package
     - dpl --provider=heroku --app=ef420-simplewebapp --api-key=72e43b71-2af7-4f8d-9409-6e31d8c6871a
-  image: ruby:latest
