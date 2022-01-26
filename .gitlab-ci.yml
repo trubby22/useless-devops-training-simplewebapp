@@ -1,7 +1,3 @@
-default:
-  tags:
-    - devops
-
 build-job:
   stage: build
   script:
